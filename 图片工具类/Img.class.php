@@ -27,7 +27,12 @@ class ImgTool {
         if(!$checked) {
             die('Need File array !');
         }
-        $this->_name=$file['name'];
+        //保证中文不会乱码
+        if (preg_match("/[\x7f-\xff]/", $file['name'])){
+            $this->_name=iconv('UTF-8','GBK',$file['name']);
+        }else{
+            $this->_name=$file['name'];
+        }
         $this->_type=$file['type'];
         $this->_tmp_name=$file['tmp_name'];
         $this->_error=$file['error'];
